@@ -1,0 +1,21 @@
+DUMMY:=$(print $(shell mkdir --parents --verbose target))
+
+target/units: scripts/collectUnits.sh data/baseUnits data/relations
+    ./scripts/collectUnits.sh > ${target}
+
+target/units.mk: scripts/units.mk.sh scripts/units.mk.template target/units
+    @TEMPFILE=$$(mktemp); \
+    ./scripts/units.mk.sh > $${TEMPFILE}; \
+    if [ -f ${output} ] && diff --brief $${TEMPFILE} ${output} >/dev/null ; then \
+        true; \
+    else \
+        echo "./scripts/units.mk.sh > ${target}"; \
+        < $${TEMPFILE} cat > ${target}; \
+    fi; \
+    rm --force $${TEMPFILE}
+
+include target/units.mk
+
+target/operations: scripts/listOperations.sh data/relations
+    ./scripts/listOperations.sh > ${target}
+

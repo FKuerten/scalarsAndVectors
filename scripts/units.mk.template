@@ -1,0 +1,4 @@
+
+target/generated/#MEASURE##TYPE#.java: scripts/generateUnit.sh templates/#TYPE#.java target/operations target/units templates/*.java
+    ./scripts/generateUnit.sh #MEASURE# #UNIT# #TYPE# > ${target}
+
