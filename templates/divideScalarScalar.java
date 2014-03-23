@@ -1,3 +1,3 @@
-public ReturnType divide(OtherType otherMeasure) {
-    return new ReturnType(this.value / otherMeasure.getValue());
+public Scalar<R> divide(Scalar<S> otherMeasure) {
+    return new Scalar<R>(this.value / otherMeasure.getValue());
 }

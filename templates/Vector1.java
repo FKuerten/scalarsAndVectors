@@ -3,9 +3,9 @@ package #PACKAGE_JAVA#;
 import lombok.Data;
 
 @Data
-public class Scalar<T> {
+public class Vector1<T> {
 
-    private final double value;
+    private final double x;
 
     // BEGIN_OPERATIONS
 

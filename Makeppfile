@@ -19,3 +19,15 @@ include target/units.mk
 target/operations: scripts/listOperations.sh data/relations
     ./scripts/listOperations.sh > ${target}
 
+$(phony generate): ${ALL_UNITS}
+
+CLASSES:=$(filesubst target/generated/%, target/classes/%, $(filesubst %.java, %.class, ${ALL_UNITS}))
+
+${CLASSES}: ${ALL_UNITS}
+    mkdir -pv target/classes
+    javac -classpath target/classes:lombok.jar \
+          -sourcepath target/generated \
+          -d target/classes \
+          ${ALL_UNITS}
+
+$(phony compile): ${CLASSES}

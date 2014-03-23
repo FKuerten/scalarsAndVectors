@@ -1,3 +1,3 @@
-public ReturnType multiply(OtherType otherMeasure) {
-    return new ReturnType(this.value * otherMeasure.getValue());
+public Scalar<R> multiply(Scalar<S> otherMeasure) {
+    return new Scalar<R>(this.value * otherMeasure.getValue());
 }
