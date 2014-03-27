@@ -1,4 +1,4 @@
 
-target/generated/#PACKAGE_FOLDER##MEASURE##TYPE#.java: scripts/generateUnit.sh templates/#TYPE#.java target/operations target/units templates/*.java
+target/generated/#PACKAGE_FOLDER##MEASURE##TYPE#.java: scripts/generateUnit.sh target/#TYPE#.java target/operations target/units templates/*.java
     ./scripts/generateUnit.sh #PACKAGE_JAVA# #MEASURE# #UNIT# #TYPE# > ${target}
 

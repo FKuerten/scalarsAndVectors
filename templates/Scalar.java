@@ -1,14 +1,35 @@
 package #PACKAGE_JAVA#;
 
-import lombok.Data;
+import lombok.*;
 
+@AllArgsConstructor
 @Data
-public class Scalar<T> {
+public class Scalar<T> implements Comparable<Scalar<T>> {
 
-    private final double value;
+    private double value;
+
+    public Scalar<T> add(Scalar<T> other) {
+        return new Scalar<T>
+            (this.value + other.value
+        );
+    }
+
+    public void addTo(Scalar<T> other) {
+        this.value += other.value;
+    }
 
     // BEGIN_OPERATIONS
 
     // END_OPERATIONS
+
+    public int compareTo(Scalar<T> other) {
+        if (this.value > other.value) {
+            return 1;
+        } else if (this.value < other.value) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
 
 }

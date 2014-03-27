@@ -13,7 +13,7 @@ findType() {
     < target/units grep -E "^${MEASURE}" | awk '{print $3}'
 }
 
-MAIN_TEMPLATE="templates/${TYPE}.java"
+MAIN_TEMPLATE="target/${TYPE}.java"
 
 TEMP_A=$(mktemp)
 trap "rm ${TEMP_A}" EXIT

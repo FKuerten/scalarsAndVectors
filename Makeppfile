@@ -31,3 +31,15 @@ ${CLASSES}: ${ALL_UNITS}
           ${ALL_UNITS}
 
 $(phony compile): ${CLASSES}
+
+target/Scalar.java: templates/Scalar.java
+    cp ${input} ${output}
+
+target/Vector1.java: templates/VectorN.java scripts/preprocess.sh scripts/preprocess2.awk
+    <${input} ./scripts/preprocess.sh N=1 >${output}
+
+target/Vector2.java: templates/VectorN.java scripts/preprocess.sh scripts/preprocess2.awk
+    <${input} ./scripts/preprocess.sh N=2 >${output}
+
+target/Vector3.java: templates/VectorN.java scripts/preprocess.sh scripts/preprocess2.awk
+    <${input} ./scripts/preprocess.sh N=3 >${output}
