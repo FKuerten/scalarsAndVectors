@@ -7,117 +7,13 @@ import lombok.*;
 public class Vector#{N}<T> {
 
     // Members
-    private double x;
-#if (#{N}>=2):private double y;
-#if (#{N}>=3):private double z;
+    double x;
+#if (#{N}>=2):double y;
+#if (#{N}>=3):double z;
 
-    // Set/get operations
-    public void assignXToX(Vector1<T> v) {
-        this.x = v.x;
-    }
+    // assign operations
+#include target/assign.java
 
-    public void assignXToX(Vector2<T> v) {
-        this.x = v.x;
-    }
-
-    public void assignYToX(Vector2<T> v) {
-        this.x = v.y;
-    }
-
-    public void assignYToX(Vector3<T> v) {
-        this.x = v.y;
-    }
-
-    public void assignZToX(Vector3<T> v) {
-        this.x = v.z;
-    }
-
-#if (#{N}>=2) begin
-    public void assignXToY(Vector1<T> v) {
-        this.y = v.x;
-    }
-
-    public void assignXToY(Vector2<T> v) {
-        this.y = v.x;
-    }
-
-    public void assignYToY(Vector2<T> v) {
-        this.y = v.y;
-    }
-
-    public void assignYToY(Vector3<T> v) {
-        this.y = v.y;
-    }
-
-    public void assignZToY(Vector3<T> v) {
-        this.y = v.z;
-    }
-#end
-
-#if (#{N}>=3) begin
-    public void assignXToZ(Vector1<T> v) {
-        this.z = v.x;
-    }
-
-    public void assignXToZ(Vector2<T> v) {
-        this.z = v.x;
-    }
-
-    public void assignYToZ(Vector2<T> v) {
-        this.z = v.y;
-    }
-
-    public void assignYToZ(Vector3<T> v) {
-        this.z = v.y;
-    }
-
-    public void assignZToZ(Vector3<T> v) {
-        this.z = v.z;
-    }
-#end
-
-#if (#{N}>=2) begin
-    public void assignXYToXY(Vector2<T> v) {
-        this.x = v.x;
-        this.y = v.y;
-    }
-
-    public void assignYXToXY(Vector2<T> v) {
-        this.x = v.y;
-        this.y = v.x;
-    }
-
-    public void assignXYToXY(Vector3<T> v) {
-        this.x = v.x;
-        this.y = v.y;
-    }
-    
-    public void assignXZToXY(Vector3<T> v) {
-        this.x = v.x;
-        this.y = v.z;
-    }
-
-    public void assignYZToXY(Vector3<T> v) {
-        this.x = v.y;
-        this.y = v.z;
-    }
-
-    public void assignYXToXY(Vector3<T> v) {
-        this.x = v.y;
-        this.y = v.x;
-    }
-
-    public void assignZXToXY(Vector3<T> v) {
-        this.x = v.z;
-        this.y = v.y;
-    }
-    
-    public void assignZYToXY(Vector3<T> v) {
-        this.x = v.z;
-        this.y = v.y;
-    }
-#end
-    
 
     public Vector#{N}<T> add(Vector#{N}<T> other) {
         return new Vector#{N}<T>
@@ -131,6 +27,20 @@ public class Vector#{N}<T> {
         this.x += other.x;
 #if (#{N}>=2): this.y += other.y;
 #if (#{N}>=3): this.z += other.z;
+    }
+
+    public Vector#{N}<T> subtract(Vector#{N}<T> other) {
+        return new Vector#{N}<T>
+            (this.x - other.x
+#if (#{N}>=2):   ,this.y - other.y
+#if (#{N}>=3):   ,this.z - other.z
+        );
+    }
+
+    public void subtractFrom(Vector#{N}<T> other) {
+        this.x -= other.x;
+#if (#{N}>=2): this.y -= other.y;
+#if (#{N}>=3): this.z -= other.z;
     }
 
     public Vector#{N}<T> multiply(double value) {

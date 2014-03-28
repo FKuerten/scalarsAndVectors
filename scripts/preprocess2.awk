@@ -93,6 +93,12 @@ match($0, /^#if (.*) begin$/, matches) {
     }
 }
 
+match($0, /^#include (.*)$/, matches) {
+    #print matches[1]
+    system("cat "matches[1])
+    next
+}
+
 
 {
     if (printing) {
