@@ -1,4 +1,5 @@
-Dimensionless   1   Scalar,Vector
+Dimensionless  1   Scalar
+Unitless  1   Vector
 Length	Meter	Vector
 Time	Second	Scalar
 Mass	KiloGram	Scalar

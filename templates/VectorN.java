@@ -79,13 +79,13 @@ public class Vector#{N}<T> {
     }
 #end
 
-    public DimensionlessVector#{N} normalized() {
+    public UnitlessVector#{N} normalized() {
         final double length = Math.sqrt
             (this.x*this.x
 #if (#{N}>=2): +this.y * this.y
 #if (#{N}>=3): +this.z * this.z
             );
-        return new DimensionlessVector#{N}
+        return new UnitlessVector#{N}
             (this.x / length
 #if (#{N}>=2): ,this.y / length
 #if (#{N}>=3): ,this.z / length
@@ -93,7 +93,7 @@ public class Vector#{N}<T> {
     }
 
 #if (#{N}==1) begin
-    public Vector2<T> withDirectionOf(DimensionlessVector2 direction) {
+    public Vector2<T> withDirectionOf(UnitlessVector2 direction) {
         final double dl = Math.sqrt
             (direction.x * direction.x
             +direction.y * direction.y
@@ -104,7 +104,7 @@ public class Vector#{N}<T> {
             );
     }
 
-    public Vector3<T> withDirectionOf(DimensionlessVector3 direction) {
+    public Vector3<T> withDirectionOf(UnitlessVector3 direction) {
         final double dl = Math.sqrt
             (direction.x * direction.x
             +direction.y * direction.y

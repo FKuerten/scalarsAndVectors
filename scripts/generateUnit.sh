@@ -53,7 +53,7 @@ printMethod() {
         ${TEMPLATE}
 }
 
-<target/operations grep "${MEASURE}" | \
+(<target/operations grep "${MEASURE}" || true) | \
 while read LHS RHS; do
     #echo $LHS $RHS >&2
     IFS="/" read POSITIVES NEGATIVES <<< "${RHS}"

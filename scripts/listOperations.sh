@@ -47,4 +47,4 @@ while read LHS RHS; do
     <<< ${RHS} sed --expression='s!\*/!/!' \
                    --expression='s!\*$!!' \
                    --expression='s!/$!!'
-done | sort --unique
+done | sed --expression="s/Dimensionless[SV]/Dimensionless/g"| sort --unique 

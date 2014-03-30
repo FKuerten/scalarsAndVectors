@@ -6,7 +6,9 @@ set -o pipefail
 export TEMP_FILE=$(mktemp)
 trap "rm ${TEMP_FILE}" EXIT
 
-cat data/baseUnits > ${TEMP_FILE}
+< data/baseUnits \
+cat \
+> ${TEMP_FILE}
 
 getUnit() {
     MEASURE="$1"
@@ -79,4 +81,6 @@ while read LHS RHS; do
     echo -e "${LHS}\t${POSITIVE_UNITS}/${NEGATIVE_UNITS}\t${TYPE}" >>${TEMP_FILE}
 done
 
-cat ${TEMP_FILE}
+< ${TEMP_FILE} \
+sed --expression "s/DimensionlessS/Dimensionless/" \
+    --expression "s/DimensionlessV/Dimensionless/"
