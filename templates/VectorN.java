@@ -59,7 +59,7 @@ public class Vector#{N}<T> {
         );
     }
 
-    public Vector#{N}<T> negate() {
+    public Vector#{N}<T> negated() {
         return new Vector#{N}<T>
             (-this.x
 #if (#{N}>=2):   ,-this.y
@@ -75,6 +75,45 @@ public class Vector#{N}<T> {
                 +this.y * this.y
 #if (#{N}>=3):  +this.z * this.z
                 )
+            );
+    }
+#end
+
+    public DimensionlessVector#{N} normalized() {
+        final double length = Math.sqrt
+            (this.x*this.x
+#if (#{N}>=2): +this.y * this.y
+#if (#{N}>=3): +this.z * this.z
+            );
+        return new DimensionlessVector#{N}
+            (this.x / length
+#if (#{N}>=2): ,this.y / length
+#if (#{N}>=3): ,this.z / length
+            );
+    }
+
+#if (#{N}==1) begin
+    public Vector2<T> withDirectionOf(DimensionlessVector2 direction) {
+        final double dl = Math.sqrt
+            (direction.x * direction.x
+            +direction.y * direction.y
+            );
+        return new Vector2<T>
+            (this.x * direction.x / dl
+            ,this.x * direction.y / dl
+            );
+    }
+
+    public Vector3<T> withDirectionOf(DimensionlessVector3 direction) {
+        final double dl = Math.sqrt
+            (direction.x * direction.x
+            +direction.y * direction.y
+            +direction.z * direction.z
+            );
+        return new Vector3<T>
+            (this.x * direction.x / dl
+            ,this.x * direction.y / dl
+            ,this.x * direction.z / dl
             );
     }
 #end

@@ -11,11 +11,21 @@ public class Scalar<T> implements Comparable<Scalar<T>> {
     public Scalar<T> add(Scalar<T> other) {
         return new Scalar<T>
             (this.value + other.value
-        );
+            );
     }
 
     public void addTo(Scalar<T> other) {
         this.value += other.value;
+    }
+
+    public Scalar<T> subtract(Scalar<T> other) {
+        return new Scalar<T>
+            (this.value - other.value
+            );
+    }
+
+    public void subtractFrom(Scalar<T> other) {
+        this.value -= other.value;
     }
 
     // BEGIN_OPERATIONS

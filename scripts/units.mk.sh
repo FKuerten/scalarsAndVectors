@@ -10,14 +10,16 @@ echo "DUMMY:=\$(print \$(shell mkdir --parent --verbose target/generated/${PACKA
 
 echo -n "ALL_UNITS:="
 cat target/units \
-| while read MEASURE UNIT TYPE; do    
-    if [ "${TYPE}" == "Vector" ]; then
-        echo -n "target/generated/${PACKAGE_FOLDER}${MEASURE}Vector3.java "
-        echo -n "target/generated/${PACKAGE_FOLDER}${MEASURE}Vector2.java "
-        echo -n "target/generated/${PACKAGE_FOLDER}${MEASURE}Vector1.java "
-    else
-        echo -n "target/generated/${PACKAGE_FOLDER}${MEASURE}Scalar.java "
-    fi
+| while read MEASURE UNIT TYPES; do
+    for TYPE in ${TYPES//,/ }; do
+        if [ "${TYPE}" == "Vector" ]; then
+            echo -n "target/generated/${PACKAGE_FOLDER}${MEASURE}Vector3.java "
+            echo -n "target/generated/${PACKAGE_FOLDER}${MEASURE}Vector2.java "
+            echo -n "target/generated/${PACKAGE_FOLDER}${MEASURE}Vector1.java "
+        else
+            echo -n "target/generated/${PACKAGE_FOLDER}${MEASURE}Scalar.java "
+        fi
+    done
 done
 echo ""
 
@@ -33,12 +35,14 @@ doUnit() {
 }
 
 cat target/units \
-| while read MEASURE UNIT TYPE; do
-    if [ "${TYPE}" == "Vector" ]; then
-        doUnit ${MEASURE} ${UNIT} Vector3
-        doUnit ${MEASURE} ${UNIT} Vector2
-        doUnit ${MEASURE} ${UNIT} Vector1
-    else
-        doUnit ${MEASURE} ${UNIT} Scalar
-    fi
+| while read MEASURE UNIT TYPES; do
+    for TYPE in ${TYPES//,/ }; do
+        if [ "${TYPE}" == "Vector" ]; then
+            doUnit ${MEASURE} ${UNIT} Vector3
+            doUnit ${MEASURE} ${UNIT} Vector2
+            doUnit ${MEASURE} ${UNIT} Vector1
+        else
+            doUnit ${MEASURE} ${UNIT} Scalar
+        fi
+    done
 done

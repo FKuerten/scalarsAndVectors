@@ -13,7 +13,7 @@ getUnit() {
     <${TEMP_FILE} grep -E "^${MEASURE}" | awk '{ print $2}'
 }
 
-getType() {
+getTypes() {
     MEASURE="$1"
     <${TEMP_FILE} grep -E "^${MEASURE}" | awk '{ print $3}'
 }
@@ -32,19 +32,21 @@ while read LHS RHS; do
         IFS="/" read SUB_UNIT_POSITIVES SUB_UNIT_NEGATIVES <<< "${SUB_UNIT}"
         POSITIVE_UNITS="${POSITIVE_UNITS}*${SUB_UNIT_POSITIVES}"
         NEGATIVE_UNITS="${NEGATIVE_UNITS}*${SUB_UNIT_NEGATIVES}"
-        SUB_TYPE=$(getType ${POSITIVE})
-        if [ "${TYPE}" == "Vector" ] && [ "${SUB_TYPE}" == "Vector" ]; then
-            TYPE="Scalar"
-        elif [ "${TYPE}" == "Scalar" ] && [ "${SUB_TYPE}" == "Vector" ]; then
-            TYPE="Vector"
-        elif [ "${TYPE}" == "Vector" ] && [ "${SUB_TYPE}" == "Scalar" ]; then
-            TYPE="Vector"
-        elif [ "${TYPE}" == "Scalar" ] && [ "${SUB_TYPE}" == "Scalar" ]; then
-            TYPE="Scalar"
-        else
-            echo "Error: ${TYPE} and ${SUB_TYPE}" >&2
-            exit 1
-        fi
+        SUB_TYPES=$(getTypes ${POSITIVE})
+        for SUB_TYPE in ${SUB_TYPES//,/ }; do
+            if [ "${TYPE}" == "Vector" ] && [ "${SUB_TYPE}" == "Vector" ]; then
+                TYPE="Scalar"
+            elif [ "${TYPE}" == "Scalar" ] && [ "${SUB_TYPE}" == "Vector" ]; then
+                TYPE="Vector"
+            elif [ "${TYPE}" == "Vector" ] && [ "${SUB_TYPE}" == "Scalar" ]; then
+                TYPE="Vector"
+            elif [ "${TYPE}" == "Scalar" ] && [ "${SUB_TYPE}" == "Scalar" ]; then
+                TYPE="Scalar"
+            else
+                echo "Error in $LINENO: ${LHS} is of type ${TYPE} and ${POSITIVE} is of type ${SUB_TYPE}" >&2
+                exit 1
+            fi
+        done
     done
     if [ "${NEGATIVES}" ]; then
         IFS="*" read -a NEG <<< "${NEGATIVES}"
@@ -54,17 +56,19 @@ while read LHS RHS; do
             IFS="/" read SUB_UNIT_POSITIVES SUB_UNIT_NEGATIVES <<< "${SUB_UNIT}"
             POSITIVE_UNITS="${POSITIVE_UNITS}*${SUB_UNIT_NEGATIVES}"
             NEGATIVE_UNITS="${NEGATIVE_UNITS}*${SUB_UNIT_POSITIVES}"
-            SUB_TYPE=$(getType ${NEGATIVE})
+            SUB_TYPE=$(getTypes ${NEGATIVE})
             if [ "${TYPE}" == "Vector" ] && [ "${SUB_TYPE}" == "Vector" ]; then
+                echo "Error." >&2
                 exit 1
             elif [ "${TYPE}" == "Scalar" ] && [ "${SUB_TYPE}" == "Vector" ]; then
+                echo "Error." >&2
                 exit 1
             elif [ "${TYPE}" == "Vector" ] && [ "${SUB_TYPE}" == "Scalar" ]; then
                 TYPE="Vector"
             elif [ "${TYPE}" == "Scalar" ] && [ "${SUB_TYPE}" == "Scalar" ]; then
                 TYPE="Scalar"
             else
-                echo "Error: ${TYPE} and ${SUB_TYPE}" >&2
+                echo "Error in $LINENO: ${TYPE} and ${SUB_TYPE}" >&2
                 exit 1
             fi
         done

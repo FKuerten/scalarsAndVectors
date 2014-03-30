@@ -33,7 +33,11 @@ match($0, /^(.*)\(([0-9]+)(>|>=|<|<=|==|!=)([0-9]+)\)(.*)$/, matches) {
         case ">=":
             result = (matches[2] >= matches[4])
             break
+        case "==":
+            result = (matches[2] == matches[4])
+            break
         default:
+            print "Error with " matches[3] > "/dev/stderr"
             exit 1
     }
     if (result) {
