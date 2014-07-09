@@ -1,1 +1,10 @@
 Provides scalars and vectors for java.
+
+"makepp compile" should generate both the .java and .class files assuming you have all dependencies.
+
+Dependencies include:
+makepp - the build tool
+gawk - for processing
+bash - for processing, you most likely have this if you have gawk
+javac - for compiling java sources
+lombok.jar - from project lombok, also needed for compiling
